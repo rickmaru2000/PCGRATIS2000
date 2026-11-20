@@ -1,0 +1,31 @@
+
+name: Windows Performance
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Baixar arquivos
+        uses: actions/checkout@v4
+
+      - name: Verificar sistema
+        shell: pwsh
+        run: |
+          Write-Host "Windows iniciado com sucesso"
+          Write-Host "Processador:"
+          Get-CimInstance Win32_Processor |
+            Select-Object -ExpandProperty Name
+
+          Write-Host "Memoria RAM:"
+          Get-CimInstance Win32_ComputerSystem |
+            Select-Object TotalPhysicalMemory
+
+          Write-Host "Placa de video:"
+          Get-CimInstance Win32_VideoController |
+            Select-Object Name
